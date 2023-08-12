@@ -9,6 +9,32 @@ def onlyHighest(df):
     return df.drop_duplicates(subset=['Name', 'Form'])
 
 
+def createEvolutionList():
+    allEvolutions = []
+    for i in range(1, 539):
+        evolution = []
+
+        URL = "https://pokeapi.co/api/v2/evolution-chain/" + str(i) + "/"
+        data = requests.get(url=URL)
+        json_object = json.loads(data.text)
+
+        firstStage = json_object['chain']['species']['name']
+        secondStage = json_object['chain']['evolves_to']
+
+        evolution.append(firstStage)
+        for pokemon in secondStage:
+            evolution.append(pokemon['species']['name'])
+
+            thirdStage = pokemon['evolves_to']
+            for pokemon2 in thirdStage:
+                evolution.append(pokemon2['species']['name'])
+
+        if evolution not in allEvolutions:
+            allEvolutions.append(evolution)
+
+    return allEvolutions
+
+
 def dfTestingArea():
     dfTest = df
     # dfTest = df.head(15)
@@ -43,4 +69,5 @@ def pokebaseTestingArea():
 
 if __name__ == "__main__":
     # dfTestingArea()
-    pokebaseTestingArea()
+    #pokebaseTestingArea()
+    print(createEvolutionList())
