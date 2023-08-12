@@ -19,7 +19,20 @@ def readEvolutionsFromFile():
 
 
 def onlyHighest(dataf):
-    return dataf.drop_duplicates(subset=['Name', 'Form'])
+    dataframeSorted = dataf.sort_values(by=['Name', 'Form', 'IV Avg'], ascending=[True, True, False])
+    return dataframeSorted.drop_duplicates(subset=['Name', 'Form'])
+
+
+def bestPvPPokemon(dataf, league):
+    if league == "U" or league == "G" or league == "L":
+        dataframeViable = dataf.dropna(subset=['Rank % (' + league + ')'])
+        dataframeFiltered = dataframeViable[dataframeViable['Rank % (' + league + ')'] > '90.0%']
+        dataframeSorted = dataframeFiltered.sort_values(
+            by=['Name (' + league + ')', 'Form (' + league + ')', 'Rank % (' + league + ')'],
+            ascending=[True, True, False])
+        return dataframeSorted.drop_duplicates(subset=['Name (' + league + ')', 'Form (' + league + ')'])
+    else:
+        print("No valid league selected, please enter L, G or U.")
 
 
 def createEvolutionList():
@@ -55,15 +68,21 @@ def createEvolutionList():
 
 
 def dfTestingArea():
-    dfTest = df
-    # dfTest = df.head(15)
-    dfTest = dfTest.sort_values(by=['Name', 'IV Avg'], ascending=[True, False])
-    # print(dfTest.to_string())
-    print(onlyHighest(dfTest).to_string())
+    # dfTest = df
+    dfTest = df.head(15)
+    # dfTest = dfTest.sort_values(by=['Name', 'IV Avg'], ascending=[True, False])
+    print(dfTest.dtypes)
+    print(dfTest.to_string())
+    print()
+    print(bestPvPPokemon(dfTest, "U").to_string())
+    print()
+    print(bestPvPPokemon(dfTest, "G").to_string())
+    print()
+    print(bestPvPPokemon(dfTest, "L").to_string())
 
 
 if __name__ == "__main__":
-    #writeEvolutionsToFile()
-    print(readEvolutionsFromFile()[100])
-    # dfTestingArea()
+    # writeEvolutionsToFile()
+    # print(readEvolutionsFromFile()[100])
+    dfTestingArea()
     # print(createEvolutionList())
