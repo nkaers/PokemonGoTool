@@ -1,33 +1,45 @@
+import numpy as np
 import pandas as pd
 import requests
 import json
+
+from pandas import isnull
 
 df = pd.read_csv("data/poke_genie_export.csv")
 
 
 def createEvolutionList():
-    allEvolutions = []
+    allEvolutions = []  # array to store the whole set
     for i in range(1, 539):  # 538 is the last entry at the moment
         print("Lookup for Number: " + str(i))
         evolution = []
 
-        URL = "https://pokeapi.co/api/v2/evolution-chain/" + str(i) + "/"
+        URL = "https://pokeapi.co/api/v2/evolution-chain/" + str(i) + "/"  # URL of the Pokemon API
         data = requests.get(url=URL)
 
         try:
-            json_object = json.loads(data.text)
+            json_object = json.loads(data.text)  # extract the data as texts since json returned an error
 
+            # get the name of the first stage pokemon
+            # it will always return the first stage since the query does not handle pokemon individually
             firstStage = json_object['chain']['species']['name']
+            evolution.append(firstStage.title())
+
+            # create a list of Pokemon in which the first stage is able to evolve into
             secondStage = json_object['chain']['evolves_to']
 
-            evolution.append(firstStage)
             for pokemon in secondStage:
-                evolution.append(pokemon['species']['name'])
+                # add every possible evolution to the list
+                # usually only one but there are cases like Eevee
+                evolution.append((pokemon['species']['name']).title())
 
+                # same procedure as with the second stage
                 thirdStage = pokemon['evolves_to']
                 for pokemon2 in thirdStage:
-                    evolution.append(pokemon2['species']['name'])
+                    evolution.append((pokemon2['species']['name']).title())
 
+            # to not allow duplicates check if the line is already added
+            # should never fail because of the structure of the API
             if evolution not in allEvolutions:
                 allEvolutions.append(evolution)
 
@@ -50,9 +62,34 @@ def readEvolutionsFromFile():
     return evolutionListReadFromFile
 
 
-def onlyHighest(dataf):
-    dataframeSorted = dataf.sort_values(by=['Name', 'Form', 'IV Avg'], ascending=[True, True, False])
-    return dataframeSorted.drop_duplicates(subset=['Name', 'Form'])
+def bestPvEPokemon(dataf):
+    # list to store all the dataframes with the Pokemon who are kept
+    allPokemon = []
+
+    # read the evolution line information from the file or generate them if empty
+    try:
+        evolutions = readEvolutionsFromFile()
+    except:
+        writeEvolutionsToFile()
+        evolutions = readEvolutionsFromFile()
+
+    # for every evolution line which can be found in the file
+    for evolutionLine in evolutions:
+        # check how many stages the evolution line has
+        stages = len(evolutionLine)
+        # extract all Pokemon corresponding to the evolution line we are looking at and sort them
+        pokemon = dataf.loc[dataf['Name'].isin(evolutionLine)].sort_values(by=['Form', 'IV Avg'], ascending=[True, False])
+        # because of multiple forms just taking the best ones is not good enough
+        # extract all the possible forms the Pokemon has
+        forms = pokemon['Form'].drop_duplicates()
+        for form in forms:
+            if isnull(form):
+                pokemonWithForm = pokemon[pokemon['Form'].isnull()].head(stages)
+                allPokemon.append(pokemonWithForm)
+                break
+            pokemonWithForm = pokemon[pokemon['Form'] == form].head(stages)
+            allPokemon.append(pokemonWithForm)
+    return pd.concat(allPokemon)
 
 
 def bestPvPPokemon(dataf, league):
@@ -78,12 +115,17 @@ def createPvPData(dataf):
 
 
 def dfTestingArea():
-    #dfTest = df
-    dfTest = df.head(50)
-    #print(dfTest.dtypes)
+    dfTest = df
     #print(dfTest.to_string())
-    print(createPvPData(dfTest).to_string())
-    print(createPvPData(dfTest).shape)
+    #print(dfTest.shape)
+    #dfTest = df.head(50)
+    pve = bestPvEPokemon(dfTest)
+    pvp = createPvPData(dfTest)
+    bestall = pd.concat([pvp, pve]).drop_duplicates()
+    print(bestall.to_string())
+    print(pve.shape)
+    print(pvp.shape)
+    print(bestall.shape)
 
 
 if __name__ == "__main__":
