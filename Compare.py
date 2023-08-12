@@ -1,9 +1,10 @@
-import numpy as np
 import pandas as pd
 import requests
 import json
 
 from pandas import isnull
+
+# TODO check for same pokemon on different level since they appear multiple times if scanned
 
 df = pd.read_csv("data/poke_genie_export.csv")
 
@@ -78,7 +79,8 @@ def bestPvEPokemon(dataf):
         # check how many stages the evolution line has
         stages = len(evolutionLine)
         # extract all Pokemon corresponding to the evolution line we are looking at and sort them
-        pokemon = dataf.loc[dataf['Name'].isin(evolutionLine)].sort_values(by=['Form', 'IV Avg'], ascending=[True, False])
+        pokemon = dataf.loc[dataf['Name'].isin(evolutionLine)].sort_values(by=['Form', 'IV Avg'],
+                                                                           ascending=[True, False])
         # because of multiple forms just taking the best ones is not good enough
         # extract all the possible forms the Pokemon has
         forms = pokemon['Form'].drop_duplicates()
@@ -109,23 +111,24 @@ def createPvPData(dataf):
         # TODO: improve filtering to avoid doing this
         differentLeagues.append(dataf[dataf['Rank % (' + league + ')'] > '98.0%'])
     # hint: this shows what items of df2 are missing in df1
-    #print(pd.concat([df1, df2, df1]).drop_duplicates(keep=False).sort_values(by='Index').to_string())
-    #print((pd.concat([df1, df2, df1]).drop_duplicates(keep=False)).shape)
+    # print(pd.concat([df1, df2, df1]).drop_duplicates(keep=False).sort_values(by='Index').to_string())
+    # print((pd.concat([df1, df2, df1]).drop_duplicates(keep=False)).shape)
     return pd.concat(differentLeagues).drop_duplicates()
 
 
 def dfTestingArea():
     dfTest = df
-    #print(dfTest.to_string())
-    #print(dfTest.shape)
-    #dfTest = df.head(50)
+    # print(dfTest.to_string())
+    # print(dfTest.shape)
+    # dfTest = df.head(50)
     pve = bestPvEPokemon(dfTest)
     pvp = createPvPData(dfTest)
-    bestall = pd.concat([pvp, pve]).drop_duplicates()
+    bestall = pd.concat([pvp, pve]).drop_duplicates().sort_values(by='Pokemon', ascending=False)
     print(bestall.to_string())
     print(pve.shape)
     print(pvp.shape)
     print(bestall.shape)
+    bestall.to_csv("data/compare_export.csv", index=False)
 
 
 if __name__ == "__main__":
