@@ -5,36 +5,6 @@ import json
 df = pd.read_csv("data/poke_genie_export.csv")
 
 
-def writeEvolutionsToFile():
-    evolutionList = createEvolutionList()
-    with open("data/evolutions.txt", "w") as filehandle:
-        json.dump(evolutionList, filehandle)
-
-
-def readEvolutionsFromFile():
-    evolutionListReadFromFile = []
-    with open("data/evolutions.txt", "r") as filehandle:
-        evolutionListReadFromFile = json.load(filehandle)
-    return evolutionListReadFromFile
-
-
-def onlyHighest(dataf):
-    dataframeSorted = dataf.sort_values(by=['Name', 'Form', 'IV Avg'], ascending=[True, True, False])
-    return dataframeSorted.drop_duplicates(subset=['Name', 'Form'])
-
-
-def bestPvPPokemon(dataf, league):
-    if league == "U" or league == "G" or league == "L":
-        dataframeViable = dataf.dropna(subset=['Rank % (' + league + ')'])
-        dataframeFiltered = dataframeViable[dataframeViable['Rank % (' + league + ')'] > '90.0%']
-        dataframeSorted = dataframeFiltered.sort_values(
-            by=['Name (' + league + ')', 'Form (' + league + ')', 'Rank % (' + league + ')'],
-            ascending=[True, True, False])
-        return dataframeSorted.drop_duplicates(subset=['Name (' + league + ')', 'Form (' + league + ')'])
-    else:
-        print("No valid league selected, please enter L, G or U.")
-
-
 def createEvolutionList():
     allEvolutions = []
     for i in range(1, 539):  # 538 is the last entry at the moment
@@ -67,18 +37,53 @@ def createEvolutionList():
     return allEvolutions
 
 
+def writeEvolutionsToFile():
+    evolutionList = createEvolutionList()
+    with open("data/evolutions.txt", "w") as filehandle:
+        json.dump(evolutionList, filehandle)
+
+
+def readEvolutionsFromFile():
+    evolutionListReadFromFile = []
+    with open("data/evolutions.txt", "r") as filehandle:
+        evolutionListReadFromFile = json.load(filehandle)
+    return evolutionListReadFromFile
+
+
+def onlyHighest(dataf):
+    dataframeSorted = dataf.sort_values(by=['Name', 'Form', 'IV Avg'], ascending=[True, True, False])
+    return dataframeSorted.drop_duplicates(subset=['Name', 'Form'])
+
+
+def bestPvPPokemon(dataf, league):
+    dataframeViable = dataf.dropna(subset=['Rank % (' + league + ')'])
+    dataframeFiltered = dataframeViable[dataframeViable['Rank % (' + league + ')'] > '90.0%']
+    dataframeSorted = dataframeFiltered.sort_values(
+        by=['Name (' + league + ')', 'Form (' + league + ')', 'Rank % (' + league + ')'],
+        ascending=[True, True, False])
+    return dataframeSorted.drop_duplicates(subset=['Name (' + league + ')', 'Form (' + league + ')'])
+
+
+def createPvPData(dataf):
+    differentLeagues = []
+    for league in ["U", "G", "L"]:
+        differentLeagues.append(bestPvPPokemon(dataf, league))
+        # include all Pokemon with a PvP stat of 98% or higher just to be sure to not delete good Pokemon
+        # TODO: improve filtering to avoid doing this
+        differentLeagues.append(dataf[dataf['Rank % (' + league + ')'] > '98.0%'])
+    # hint: this shows what items of df2 are missing in df1
+    #print(pd.concat([df1, df2, df1]).drop_duplicates(keep=False).sort_values(by='Index').to_string())
+    #print((pd.concat([df1, df2, df1]).drop_duplicates(keep=False)).shape)
+    return pd.concat(differentLeagues).drop_duplicates()
+
+
 def dfTestingArea():
-    # dfTest = df
-    dfTest = df.head(15)
-    # dfTest = dfTest.sort_values(by=['Name', 'IV Avg'], ascending=[True, False])
-    print(dfTest.dtypes)
-    print(dfTest.to_string())
-    print()
-    print(bestPvPPokemon(dfTest, "U").to_string())
-    print()
-    print(bestPvPPokemon(dfTest, "G").to_string())
-    print()
-    print(bestPvPPokemon(dfTest, "L").to_string())
+    #dfTest = df
+    dfTest = df.head(50)
+    #print(dfTest.dtypes)
+    #print(dfTest.to_string())
+    print(createPvPData(dfTest).to_string())
+    print(createPvPData(dfTest).shape)
 
 
 if __name__ == "__main__":
