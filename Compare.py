@@ -134,5 +134,11 @@ def dfTestingArea():
 if __name__ == "__main__":
     # writeEvolutionsToFile()
     # print(readEvolutionsFromFile()[100])
-    dfTestingArea()
+    # dfTestingArea()
     # print(createEvolutionList())
+    # TODO manipulate the json file as this is the only way to load it into PokeGenie
+    with open("data/scan_data.json", "r") as filehandle:
+        test = json.load(filehandle)
+    print(json.dumps(test, indent=2))
+    for i in range(3620, 3631):
+        print(df[df['Index'] == i])
