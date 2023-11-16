@@ -6,7 +6,7 @@ from pandas import isnull
 
 # TODO check for same pokemon on different level since they appear multiple times if scanned
 
-df = pd.read_csv("data/poke_genie_export.csv")
+df = pd.read_csv("../data/poke_genie_export.csv")
 
 
 def createEvolutionList():
@@ -52,13 +52,13 @@ def createEvolutionList():
 
 def writeEvolutionsToFile():
     evolutionList = createEvolutionList()
-    with open("data/evolutions.txt", "w") as filehandle:
+    with open("../data/evolutions.txt", "w") as filehandle:
         json.dump(evolutionList, filehandle)
 
 
 def readEvolutionsFromFile():
     evolutionListReadFromFile = []
-    with open("data/evolutions.txt", "r") as filehandle:
+    with open("../data/evolutions.txt", "r") as filehandle:
         evolutionListReadFromFile = json.load(filehandle)
     return evolutionListReadFromFile
 
@@ -128,7 +128,7 @@ def dfTestingArea():
     print(pve.shape)
     print(pvp.shape)
     print(bestall.shape)
-    bestall.to_csv("data/compare_export.csv", index=False)
+    bestall.to_csv("../data/compare_export.csv", index=False)
 
 
 if __name__ == "__main__":
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     # dfTestingArea()
     # print(createEvolutionList())
     # TODO manipulate the json file as this is the only way to load it into PokeGenie
-    with open("data/scan_data.json", "r") as filehandle:
+    with open("../data/scan_data.json", "r") as filehandle:
         test = json.load(filehandle)
     print(json.dumps(test, indent=2))
     for i in range(3620, 3631):
