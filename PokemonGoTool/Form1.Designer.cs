@@ -28,67 +28,63 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            lstNames = new ListBox();
-            txtName = new TextBox();
-            btnAdd = new Button();
+            filePath = new TextBox();
+            openFile = new Button();
+            openFileDialog = new OpenFileDialog();
+            pokemonData = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)pokemonData).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // filePath
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(44, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Names";
+            filePath.Location = new Point(10, 10);
+            filePath.Name = "filePath";
+            filePath.Size = new Size(800, 23);
+            filePath.TabIndex = 0;
             // 
-            // lstNames
+            // openFile
             // 
-            lstNames.FormattingEnabled = true;
-            lstNames.ItemHeight = 15;
-            lstNames.Location = new Point(12, 27);
-            lstNames.Name = "lstNames";
-            lstNames.Size = new Size(120, 94);
-            lstNames.TabIndex = 1;
+            openFile.Location = new Point(820, 10);
+            openFile.Name = "openFile";
+            openFile.Size = new Size(120, 25);
+            openFile.TabIndex = 1;
+            openFile.Text = "Open .csv file";
+            openFile.UseVisualStyleBackColor = true;
+            openFile.Click += openFile_Click;
             // 
-            // txtName
+            // openFileDialog
             // 
-            txtName.Location = new Point(138, 26);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(100, 23);
-            txtName.TabIndex = 2;
+            openFileDialog.FileName = "dataFromCSV";
             // 
-            // btnAdd
+            // pokemonData
             // 
-            btnAdd.Location = new Point(138, 55);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(100, 23);
-            btnAdd.TabIndex = 3;
-            btnAdd.Text = "Add Name";
-            btnAdd.UseVisualStyleBackColor = true;
-            btnAdd.Click += btnAdd_Click;
+            pokemonData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            pokemonData.Location = new Point(10, 40);
+            pokemonData.Name = "pokemonData";
+            pokemonData.RowTemplate.Height = 25;
+            pokemonData.Size = new Size(930, 600);
+            pokemonData.TabIndex = 2;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(252, 141);
-            Controls.Add(btnAdd);
-            Controls.Add(txtName);
-            Controls.Add(lstNames);
-            Controls.Add(label1);
+            ClientSize = new Size(984, 661);
+            Controls.Add(pokemonData);
+            Controls.Add(openFile);
+            Controls.Add(filePath);
             Name = "Form1";
-            Text = "Names";
+            Text = "Pokemon Go Storage Manager";
+            ((System.ComponentModel.ISupportInitialize)pokemonData).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
-        private ListBox lstNames;
-        private TextBox txtName;
-        private Button btnAdd;
+        private TextBox filePath;
+        private Button openFile;
+        private OpenFileDialog openFileDialog;
+        private DataGridView pokemonData;
     }
 }
