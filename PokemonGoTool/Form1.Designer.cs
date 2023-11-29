@@ -29,9 +29,12 @@
         private void InitializeComponent()
         {
             filePath = new TextBox();
-            openFile = new Button();
+            openFileBtn = new Button();
             openFileDialog = new OpenFileDialog();
             pokemonData = new DataGridView();
+            addRowBtn = new Button();
+            deleteSelectedRowsBtn = new Button();
+            saveToCSVBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)pokemonData).BeginInit();
             SuspendLayout();
             // 
@@ -39,18 +42,18 @@
             // 
             filePath.Location = new Point(10, 10);
             filePath.Name = "filePath";
-            filePath.Size = new Size(800, 23);
+            filePath.Size = new Size(1400, 23);
             filePath.TabIndex = 0;
             // 
-            // openFile
+            // openFileBtn
             // 
-            openFile.Location = new Point(820, 10);
-            openFile.Name = "openFile";
-            openFile.Size = new Size(120, 25);
-            openFile.TabIndex = 1;
-            openFile.Text = "Open .csv file";
-            openFile.UseVisualStyleBackColor = true;
-            openFile.Click += openFile_Click;
+            openFileBtn.Location = new Point(1420, 10);
+            openFileBtn.Name = "openFileBtn";
+            openFileBtn.Size = new Size(150, 25);
+            openFileBtn.TabIndex = 1;
+            openFileBtn.Text = "Open .csv file";
+            openFileBtn.UseVisualStyleBackColor = true;
+            openFileBtn.Click += openFile_Click;
             // 
             // openFileDialog
             // 
@@ -58,20 +61,57 @@
             // 
             // pokemonData
             // 
+            pokemonData.AllowUserToAddRows = false;
+            pokemonData.AllowUserToDeleteRows = false;
+            pokemonData.AllowUserToResizeColumns = false;
+            pokemonData.AllowUserToResizeRows = false;
             pokemonData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            pokemonData.EditMode = DataGridViewEditMode.EditProgrammatically;
             pokemonData.Location = new Point(10, 40);
             pokemonData.Name = "pokemonData";
+            pokemonData.ReadOnly = true;
             pokemonData.RowTemplate.Height = 25;
-            pokemonData.Size = new Size(930, 600);
+            pokemonData.Size = new Size(1400, 800);
             pokemonData.TabIndex = 2;
+            pokemonData.VirtualMode = true;
+            // 
+            // addRowBtn
+            // 
+            addRowBtn.Location = new Point(1420, 40);
+            addRowBtn.Name = "addRowBtn";
+            addRowBtn.Size = new Size(150, 25);
+            addRowBtn.TabIndex = 3;
+            addRowBtn.Text = "Add a row";
+            addRowBtn.UseVisualStyleBackColor = true;
+            // 
+            // deleteSelectedRowsBtn
+            // 
+            deleteSelectedRowsBtn.Location = new Point(1420, 70);
+            deleteSelectedRowsBtn.Name = "deleteSelectedRowsBtn";
+            deleteSelectedRowsBtn.Size = new Size(150, 25);
+            deleteSelectedRowsBtn.TabIndex = 4;
+            deleteSelectedRowsBtn.Text = "Delete selected rows";
+            deleteSelectedRowsBtn.UseVisualStyleBackColor = true;
+            // 
+            // saveToCSVBtn
+            // 
+            saveToCSVBtn.Location = new Point(1420, 100);
+            saveToCSVBtn.Name = "saveToCSVBtn";
+            saveToCSVBtn.Size = new Size(150, 25);
+            saveToCSVBtn.TabIndex = 5;
+            saveToCSVBtn.Text = "save to CSV";
+            saveToCSVBtn.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(984, 661);
+            ClientSize = new Size(1584, 861);
+            Controls.Add(saveToCSVBtn);
+            Controls.Add(deleteSelectedRowsBtn);
+            Controls.Add(addRowBtn);
             Controls.Add(pokemonData);
-            Controls.Add(openFile);
+            Controls.Add(openFileBtn);
             Controls.Add(filePath);
             Name = "Form1";
             Text = "Pokemon Go Storage Manager";
@@ -83,8 +123,11 @@
         #endregion
 
         private TextBox filePath;
-        private Button openFile;
+        private Button openFileBtn;
         private OpenFileDialog openFileDialog;
         private DataGridView pokemonData;
+        private Button addRowBtn;
+        private Button deleteSelectedRowsBtn;
+        private Button saveToCSVBtn;
     }
 }
