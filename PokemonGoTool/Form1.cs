@@ -1,6 +1,7 @@
 using System.Data;
 using System.Formats.Tar;
 using System.Globalization;
+using System.Text;
 using System.Windows.Forms;
 
 namespace PokemonGoTool
@@ -115,7 +116,7 @@ namespace PokemonGoTool
                         if (!String.IsNullOrEmpty(dataWords[columnIndex]))
                         {
                             // delete the kg from weight to allow parsing to float
-                            if (dataWords[columnIndex].Contains("kg")) 
+                            if (dataWords[columnIndex].Contains("kg"))
                             {
                                 dataWords[columnIndex] = dataWords[columnIndex].Replace("kg", " ");
                             }
@@ -149,13 +150,13 @@ namespace PokemonGoTool
                             {
                                 dr[headerWord] = dataWords[columnIndex++];
                             }
-                        } 
+                        }
                         else
                         {
                             // catches empty data cells and leaves them empty so no ArgumentException will be thrown
                             columnIndex++;
                         }
-                        
+
                     }
                     dt.Rows.Add(dr);
                 }
@@ -165,6 +166,39 @@ namespace PokemonGoTool
                 pokemonData.DataSource = dt;
             }
 
+        }
+
+        private void saveToCSVBtn_Click(object sender, EventArgs e)
+        {
+            saveFileDialog.Filter = "CSV file (*.csv)|*.csv";
+            String separator = ",";
+            StringBuilder output = new StringBuilder();
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = saveFileDialog.FileName;
+
+                // get all of the column names and add them to the output
+                string[] headings = (from DataGridViewColumn column in pokemonData.Columns select column.HeaderText).ToArray();
+                output.AppendLine(string.Join(separator, headings));
+
+                // get all of the entries of every row and adding them to the output
+                foreach (DataGridViewRow row in pokemonData.Rows)
+                {
+                    string[] rowEntries = (from DataGridViewCell cell in row.Cells select cell.Value.ToString().Replace(',', '.')).ToArray();
+                    output.AppendLine(string.Join(separator, rowEntries));
+                }
+
+                try
+                {
+                    // save to file and if the file already exists overwrite it
+                    File.WriteAllText(path, output.ToString());
+                }
+                catch (Exception ex) // TODO create error messages for specific cases instead of this
+                { 
+                    ex.ToString();
+                }
+            }
         }
     }
 }

@@ -35,6 +35,9 @@
             addRowBtn = new Button();
             deleteSelectedRowsBtn = new Button();
             saveToCSVBtn = new Button();
+            editRowBtn = new Button();
+            saveFileDialog = new SaveFileDialog();
+            debugText = new Label();
             ((System.ComponentModel.ISupportInitialize)pokemonData).BeginInit();
             SuspendLayout();
             // 
@@ -86,7 +89,7 @@
             // 
             // deleteSelectedRowsBtn
             // 
-            deleteSelectedRowsBtn.Location = new Point(1420, 70);
+            deleteSelectedRowsBtn.Location = new Point(1420, 100);
             deleteSelectedRowsBtn.Name = "deleteSelectedRowsBtn";
             deleteSelectedRowsBtn.Size = new Size(150, 25);
             deleteSelectedRowsBtn.TabIndex = 4;
@@ -95,18 +98,45 @@
             // 
             // saveToCSVBtn
             // 
-            saveToCSVBtn.Location = new Point(1420, 100);
+            saveToCSVBtn.Location = new Point(1420, 130);
             saveToCSVBtn.Name = "saveToCSVBtn";
             saveToCSVBtn.Size = new Size(150, 25);
             saveToCSVBtn.TabIndex = 5;
-            saveToCSVBtn.Text = "save to CSV";
+            saveToCSVBtn.Text = "Save to CSV";
             saveToCSVBtn.UseVisualStyleBackColor = true;
+            saveToCSVBtn.Click += saveToCSVBtn_Click;
+            // 
+            // editRowBtn
+            // 
+            editRowBtn.Location = new Point(1420, 70);
+            editRowBtn.Name = "editRowBtn";
+            editRowBtn.Size = new Size(150, 25);
+            editRowBtn.TabIndex = 6;
+            editRowBtn.Text = "Edit row";
+            editRowBtn.UseVisualStyleBackColor = true;
+            // 
+            // saveFileDialog
+            // 
+            saveFileDialog.DefaultExt = "csv";
+            saveFileDialog.FileName = "pokemon";
+            saveFileDialog.Filter = "\"CSV file (*.csv)|*.csv| All Files (*.*)|*.*\"";
+            // 
+            // debugText
+            // 
+            debugText.AutoSize = true;
+            debugText.Location = new Point(1420, 500);
+            debugText.Name = "debugText";
+            debugText.Size = new Size(66, 15);
+            debugText.TabIndex = 7;
+            debugText.Text = "Debug Text";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1584, 861);
+            Controls.Add(debugText);
+            Controls.Add(editRowBtn);
             Controls.Add(saveToCSVBtn);
             Controls.Add(deleteSelectedRowsBtn);
             Controls.Add(addRowBtn);
@@ -129,5 +159,8 @@
         private Button addRowBtn;
         private Button deleteSelectedRowsBtn;
         private Button saveToCSVBtn;
+        private Button editRowBtn;
+        private SaveFileDialog saveFileDialog;
+        private Label debugText;
     }
 }
