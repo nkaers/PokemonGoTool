@@ -119,7 +119,7 @@
             // 
             saveFileDialog.DefaultExt = "csv";
             saveFileDialog.FileName = "pokemon";
-            saveFileDialog.Filter = "\"CSV file (*.csv)|*.csv| All Files (*.*)|*.*\"";
+            saveFileDialog.Filter = "\"CSV file (*.csv)|*.csv\"";
             // 
             // debugText
             // 
