@@ -1,6 +1,6 @@
 ﻿namespace PokemonGoTool
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         ///  Required designer variable.
@@ -86,6 +86,7 @@
             addRowBtn.TabIndex = 3;
             addRowBtn.Text = "Add a row";
             addRowBtn.UseVisualStyleBackColor = true;
+            addRowBtn.Click += addRowBtn_Click;
             // 
             // deleteSelectedRowsBtn
             // 
@@ -130,7 +131,7 @@
             debugText.TabIndex = 7;
             debugText.Text = "Debug Text";
             // 
-            // Form1
+            // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -143,7 +144,7 @@
             Controls.Add(pokemonData);
             Controls.Add(openFileBtn);
             Controls.Add(filePath);
-            Name = "Form1";
+            Name = "MainWindow";
             Text = "Pokemon Go Storage Manager";
             ((System.ComponentModel.ISupportInitialize)pokemonData).EndInit();
             ResumeLayout(false);

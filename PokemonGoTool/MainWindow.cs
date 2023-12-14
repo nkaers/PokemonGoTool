@@ -6,20 +6,37 @@ using System.Windows.Forms;
 
 namespace PokemonGoTool
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
-        public Form1()
+        public MainWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Open a file dialog and let the user choose an input file. This file will be used as a data source for the DataGridView.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openFile_Click(object sender, EventArgs e)
         {
             openFileDialog.ShowDialog();
-            filePath.Text = openFileDialog.FileName;
-            BindData(filePath.Text);
+            try
+            {
+                BindData(openFileDialog.FileName);
+                filePath.Text = openFileDialog.FileName;
+            }
+            catch 
+            {
+                MessageBox.Show("The file could not be opened", "Error opening file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
+        /// <summary>
+        /// This method extracts the data from the file given by the parameter and binds it to the DataGridView so that the data is displayed properly in the application.
+        /// </summary>
+        /// <param name="filePath">A string which is a path pointing to the data source</param>
         private void BindData(string filePath)
         {
             DataTable dt = new DataTable();
@@ -168,6 +185,11 @@ namespace PokemonGoTool
 
         }
 
+        /// <summary>
+        /// A method which saves all values which are displayed in the DataGridView to an existing or new csv file. If an existing csv file is chosen it is overwritten.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveToCSVBtn_Click(object sender, EventArgs e)
         {
             saveFileDialog.Filter = "CSV file (*.csv)|*.csv";
@@ -195,10 +217,21 @@ namespace PokemonGoTool
                     File.WriteAllText(path, output.ToString());
                 }
                 catch (Exception ex) // TODO create error messages for specific cases instead of this
-                { 
+                {
                     ex.ToString();
                 }
             }
+        }
+
+        /// <summary>
+        /// Opens a new window with inputs so that the user can add a new entry to the DataGridView.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addRowBtn_Click(object sender, EventArgs e)
+        {
+            AddRowWindow addRowWindow = new AddRowWindow();
+            addRowWindow.ShowDialog();
         }
     }
 }
