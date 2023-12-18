@@ -42,6 +42,10 @@
             formInputBox = new TextBox();
             label1 = new Label();
             genderDropdownList = new ComboBox();
+            cancelBtn = new Button();
+            addBtn = new Button();
+            hpInputBox = new TextBox();
+            levelInputBox = new TextBox();
             SuspendLayout();
             // 
             // mandatoryLabel
@@ -160,12 +164,51 @@
             genderDropdownList.Size = new Size(100, 23);
             genderDropdownList.TabIndex = 14;
             // 
+            // cancelBtn
+            // 
+            cancelBtn.Location = new Point(300, 200);
+            cancelBtn.Name = "cancelBtn";
+            cancelBtn.Size = new Size(75, 23);
+            cancelBtn.TabIndex = 15;
+            cancelBtn.Text = "Cancel";
+            cancelBtn.UseVisualStyleBackColor = true;
+            cancelBtn.Click += cancelBtn_Click;
+            // 
+            // addBtn
+            // 
+            addBtn.Location = new Point(400, 200);
+            addBtn.Name = "addBtn";
+            addBtn.Size = new Size(75, 23);
+            addBtn.TabIndex = 16;
+            addBtn.Text = "Add";
+            addBtn.UseVisualStyleBackColor = true;
+            addBtn.Click += addBtn_Click;
+            // 
+            // hpInputBox
+            // 
+            hpInputBox.Location = new Point(20, 130);
+            hpInputBox.Name = "hpInputBox";
+            hpInputBox.PlaceholderText = "HP";
+            hpInputBox.Size = new Size(100, 23);
+            hpInputBox.TabIndex = 17;
+            // 
+            // levelInputBox
+            // 
+            levelInputBox.Location = new Point(140, 130);
+            levelInputBox.Name = "levelInputBox";
+            levelInputBox.PlaceholderText = "Level";
+            levelInputBox.Size = new Size(100, 23);
+            levelInputBox.TabIndex = 18;
+            // 
             // AddRowWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(comboBox1);
+            ClientSize = new Size(784, 261);
+            Controls.Add(levelInputBox);
+            Controls.Add(hpInputBox);
+            Controls.Add(addBtn);
+            Controls.Add(cancelBtn);
             Controls.Add(genderDropdownList);
             Controls.Add(label1);
             Controls.Add(formInputBox);
@@ -203,5 +246,9 @@
         private Label label1;
         private ComboBox genderDropdownList;
         private ComboBox comboBox1;
+        private Button cancelBtn;
+        private Button addBtn;
+        private TextBox hpInputBox;
+        private TextBox levelInputBox;
     }
 }
