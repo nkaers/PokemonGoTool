@@ -24,12 +24,12 @@ namespace PokemonGoTool
         private void openFile_Click(object sender, EventArgs e)
         {
             // Check if dt is null
-            if (this.dt != null) 
+            if (this.dt != null)
             {
                 // Prompt the user with a message box
                 DialogResult result = MessageBox.Show("There is already a file opened. Are you sure you want to continue?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result != DialogResult.Yes) 
+                if (result != DialogResult.Yes)
                 {
                     return;
                 }
@@ -46,11 +46,11 @@ namespace PokemonGoTool
                     UpdateDataGridView(dt);
                 }
             }
-            catch 
+            catch
             {
                 MessageBox.Show("The file could not be opened", "Error opening file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
 
@@ -114,15 +114,117 @@ namespace PokemonGoTool
                 AddRowWindow addRowWindow = new AddRowWindow(this, dt);
                 addRowWindow.ShowDialog();
             }
-        
+
         }
 
         public void UpdateDataGridView(DataTable dt)
         {
-            if (dt != null) 
+            if (dt != null)
             {
                 this.dt = dt;
                 pokemonData.DataSource = dt;
+            }
+        }
+
+        /// <summary>
+        /// Initialize an empty table which has the columns already defined. At the moment the standard Pokegenie properties are used.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void createTableBtn_Click(object sender, EventArgs e)
+        {
+            if (dt != null)
+            {
+                DialogResult result = MessageBox.Show("There is already a table open. A new table will be created and this one will be deleted. Are you sure you want to continue?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+            DataHandler handler = new DataHandler();
+            dt = handler.CreatePokegenieHeader();
+            UpdateDataGridView(dt);
+        }
+
+        private void editRowBtn_Click(object sender, EventArgs e)
+        {
+            // Ensure that a row is selected
+            if (pokemonData.SelectedRows.Count > 0)
+            {
+                // Get the selected row
+                DataGridViewRow selectedRow = pokemonData.SelectedRows[0];
+
+                // Extract data from the selected row
+                int index = (int)selectedRow.Cells["Index"].Value;
+                string name = selectedRow.Cells["Name"].Value.ToString();
+                string form = selectedRow.Cells["Form"].Value?.ToString();
+                int pokemonId = (int)selectedRow.Cells["Pokemon"].Value;
+
+                Gender gender = Gender.Genderless;
+                string genderString = selectedRow.Cells["Gender"].Value.ToString();
+                if (genderString.Equals("\u2642")) gender = Gender.Male;
+                if (genderString.Equals("\u2640")) gender = Gender.Female;
+
+                int? cp = selectedRow.Cells["CP"].Value as int?;
+                int? hp = selectedRow.Cells["HP"].Value as int?;
+                int? atkIV = selectedRow.Cells["Atk IV"].Value as int?;
+                int? defIV = selectedRow.Cells["Def IV"].Value as int?;
+                int? staIV = selectedRow.Cells["Sta IV"].Value as int?;
+                float? levelMin = selectedRow.Cells["Level Min"].Value as float?;
+                float? levelMax = selectedRow.Cells["Level Max"].Value as float?;
+                string? quickMove = selectedRow.Cells["Quick Move"].Value?.ToString();
+                string? chargeMove = selectedRow.Cells["Charge Move"].Value?.ToString();
+                string? chargeMove2 = selectedRow.Cells["Charge Move 2"].Value?.ToString();
+                string? scanDate = selectedRow.Cells["Scan Date"].Value?.ToString();
+                string? catchDate = selectedRow.Cells["Catch Date"].Value?.ToString();
+                float? weight = selectedRow.Cells["Weight"].Value as float?;
+                float? height = selectedRow.Cells["Height"].Value as float?;
+                int? lucky = selectedRow.Cells["Lucky"].Value as int?;
+                State shadowPurifiedState = (State)Enum.Parse(typeof(State), selectedRow.Cells["Shadow/Purified"].Value.ToString());
+
+
+                Pokemon pokemon = new Pokemon(
+                    name,
+                    shadowPurifiedState,
+                    pokemonId,
+                    form,
+                    gender,
+                    cp,
+                    hp,
+                    atkIV,
+                    defIV,
+                    staIV,
+                    levelMin,
+                    levelMax,
+                    quickMove,
+                    chargeMove,
+                    chargeMove2,
+                    scanDate,
+                    catchDate,
+                    weight,
+                    height,
+                    lucky);
+
+
+                // Create and show the EditForm
+                using (EditRowWindow editForm = new EditRowWindow(pokemon))
+                {
+                    // Show the form as a dialog
+                    DialogResult result = editForm.ShowDialog();
+
+                    // Check if the user clicked OK in the EditForm
+                    if (result == DialogResult.OK)
+                    {
+                        // Update the selected row with the edited values
+                        selectedRow.Cells["Name"].Value = editForm.Pokemon.Name;
+                        selectedRow.Cells["Form"].Value = editForm.Pokemon.Form;
+                        // Update other cells as needed
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a row to edit.");
             }
         }
     }

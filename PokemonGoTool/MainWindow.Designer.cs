@@ -38,6 +38,7 @@
             editRowBtn = new Button();
             saveFileDialog = new SaveFileDialog();
             debugText = new Label();
+            createTableBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)pokemonData).BeginInit();
             SuspendLayout();
             // 
@@ -80,7 +81,7 @@
             // 
             // addRowBtn
             // 
-            addRowBtn.Location = new Point(1420, 40);
+            addRowBtn.Location = new Point(1420, 70);
             addRowBtn.Name = "addRowBtn";
             addRowBtn.Size = new Size(150, 25);
             addRowBtn.TabIndex = 3;
@@ -90,7 +91,7 @@
             // 
             // deleteSelectedRowsBtn
             // 
-            deleteSelectedRowsBtn.Location = new Point(1420, 100);
+            deleteSelectedRowsBtn.Location = new Point(1420, 130);
             deleteSelectedRowsBtn.Name = "deleteSelectedRowsBtn";
             deleteSelectedRowsBtn.Size = new Size(150, 25);
             deleteSelectedRowsBtn.TabIndex = 4;
@@ -99,7 +100,7 @@
             // 
             // saveToCSVBtn
             // 
-            saveToCSVBtn.Location = new Point(1420, 130);
+            saveToCSVBtn.Location = new Point(1420, 160);
             saveToCSVBtn.Name = "saveToCSVBtn";
             saveToCSVBtn.Size = new Size(150, 25);
             saveToCSVBtn.TabIndex = 5;
@@ -109,12 +110,13 @@
             // 
             // editRowBtn
             // 
-            editRowBtn.Location = new Point(1420, 70);
+            editRowBtn.Location = new Point(1420, 100);
             editRowBtn.Name = "editRowBtn";
             editRowBtn.Size = new Size(150, 25);
             editRowBtn.TabIndex = 6;
             editRowBtn.Text = "Edit row";
             editRowBtn.UseVisualStyleBackColor = true;
+            editRowBtn.Click += editRowBtn_Click;
             // 
             // saveFileDialog
             // 
@@ -131,11 +133,22 @@
             debugText.TabIndex = 7;
             debugText.Text = "Debug Text";
             // 
+            // createTableBtn
+            // 
+            createTableBtn.Location = new Point(1420, 40);
+            createTableBtn.Name = "createTableBtn";
+            createTableBtn.Size = new Size(150, 25);
+            createTableBtn.TabIndex = 8;
+            createTableBtn.Text = "Create a new table";
+            createTableBtn.UseVisualStyleBackColor = true;
+            createTableBtn.Click += createTableBtn_Click;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1584, 861);
+            Controls.Add(createTableBtn);
             Controls.Add(debugText);
             Controls.Add(editRowBtn);
             Controls.Add(saveToCSVBtn);
@@ -163,5 +176,6 @@
         private Button editRowBtn;
         private SaveFileDialog saveFileDialog;
         private Label debugText;
+        private Button createTableBtn;
     }
 }

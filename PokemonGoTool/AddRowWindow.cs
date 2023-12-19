@@ -23,13 +23,15 @@ namespace PokemonGoTool
         }
 
         /// <summary>
-        /// Closes the current window
+        /// Closes the current window to cancel the add row operation.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // Close the form with Cancel result
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         /// <summary>
@@ -40,11 +42,20 @@ namespace PokemonGoTool
         private void addBtn_Click(object sender, EventArgs e)
         {
             DataHandler handler = new DataHandler();
-            if (this.dt == null)
+
+            if (dt == null)
             {
                 dt = handler.CreatePokegenieHeader();
             }
+
+            if (!ParseUserInputs())
+            {
+                return;
+            }
+
             mainWindow.UpdateDataGridView(dt);
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         /// <summary>

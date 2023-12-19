@@ -40,7 +40,7 @@
             attackIVInputBox = new TextBox();
             cpInputBox = new TextBox();
             formInputBox = new TextBox();
-            label1 = new Label();
+            additionalLabel = new Label();
             genderDropdownList = new ComboBox();
             cancelBtn = new Button();
             addBtn = new Button();
@@ -145,14 +145,14 @@
             formInputBox.Size = new Size(100, 23);
             formInputBox.TabIndex = 12;
             // 
-            // label1
+            // additionalLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(20, 75);
-            label1.Name = "label1";
-            label1.Size = new Size(128, 15);
-            label1.TabIndex = 13;
-            label1.Text = "Additional Information";
+            additionalLabel.AutoSize = true;
+            additionalLabel.Location = new Point(20, 75);
+            additionalLabel.Name = "additionalLabel";
+            additionalLabel.Size = new Size(128, 15);
+            additionalLabel.TabIndex = 13;
+            additionalLabel.Text = "Additional Information";
             // 
             // genderDropdownList
             // 
@@ -210,7 +210,7 @@
             Controls.Add(addBtn);
             Controls.Add(cancelBtn);
             Controls.Add(genderDropdownList);
-            Controls.Add(label1);
+            Controls.Add(additionalLabel);
             Controls.Add(formInputBox);
             Controls.Add(cpInputBox);
             Controls.Add(attackIVInputBox);
@@ -243,7 +243,7 @@
         private TextBox attackIVInputBox;
         private TextBox cpInputBox;
         private TextBox formInputBox;
-        private Label label1;
+        private Label additionalLabel;
         private ComboBox genderDropdownList;
         private ComboBox comboBox1;
         private Button cancelBtn;

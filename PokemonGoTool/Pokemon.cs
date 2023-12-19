@@ -4,9 +4,9 @@ namespace PokemonGoTool
 {
     public enum Gender
     {
+        Genderless,
         Male,
-        Female,
-        Undefined
+        Female        
     }
 
     public enum State
@@ -29,7 +29,8 @@ namespace PokemonGoTool
         public int? AtkIV { get; }
         public int? DefIV { get; }
         public int? StaIV { get; }
-        public int? Level { get; }
+        public float? MinLevel { get; }
+        public float? MaxLevel { get; }
         public string? QuickMove { get; }
         public string? ChargeMove { get; }
         public string? ChargeMove2 { get; }
@@ -52,13 +53,14 @@ namespace PokemonGoTool
             State state,
             int pokemonId,
             string? form = null,
-            Gender gender = Gender.Undefined,
+            Gender gender = Gender.Genderless,
             int? cp = null,
             int? hp = null,
             int? atkIV = null,
             int? defIV = null,
             int? staIV = null,
-            int? level = null,
+            float? minLevel = null,
+            float? maxLevel = null,
             string? quickMove = null,
             string? chargeMove = null,
             string? chargeMove2 = null,
@@ -81,7 +83,8 @@ namespace PokemonGoTool
             AtkIV = atkIV;
             DefIV = defIV;
             StaIV = staIV;
-            Level = level;
+            MinLevel = minLevel;
+            MaxLevel = maxLevel;
             QuickMove = quickMove;
             ChargeMove = chargeMove;
             ChargeMove2 = chargeMove2;
