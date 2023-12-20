@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using System.Formats.Tar;
 using System.Globalization;
 using System.Text;
@@ -17,7 +17,6 @@ namespace PokemonGoTool
     {
 
         private DataTable? dt;
-        private DataTableVisibilityMode dtVisibilityMode;
 
         public MainWindow()
         {
@@ -313,7 +312,6 @@ namespace PokemonGoTool
                 DataGridViewRow selectedRow = pokemonData.SelectedRows[0];
 
                 // Extract data from the selected row
-                int index = (int)selectedRow.Cells["Index"].Value;
                 string name = selectedRow.Cells["Name"].Value.ToString();
                 string form = selectedRow.Cells["Form"].Value?.ToString();
                 int pokemonId = (int)selectedRow.Cells["Pokemon"].Value;
@@ -376,7 +374,46 @@ namespace PokemonGoTool
                         // Update the selected row with the edited values
                         selectedRow.Cells["Name"].Value = editForm.Pokemon.Name;
                         selectedRow.Cells["Form"].Value = editForm.Pokemon.Form;
-                        // Update other cells as needed
+                        selectedRow.Cells["CP"].Value = editForm.Pokemon.CP;
+                        selectedRow.Cells["Atk IV"].Value = editForm.Pokemon.AtkIV;
+                        selectedRow.Cells["Def IV"].Value = editForm.Pokemon.DefIV;
+                        selectedRow.Cells["Sta IV"].Value = editForm.Pokemon.StaIV;
+                        selectedRow.Cells["Quick Move"].Value = editForm.Pokemon.QuickMove;
+                        selectedRow.Cells["Charge Move"].Value = editForm.Pokemon.ChargeMove;
+                        selectedRow.Cells["Charge Move 2"].Value = editForm.Pokemon.ChargeMove2;
+
+                        Gender pokemonGender = editForm.Pokemon.Gender;
+                        switch (pokemonGender)
+                        {
+                            case Gender.Genderless:
+                                {
+                                    selectedRow.Cells["Gender"].Value = "";
+                                    break;
+                                }
+                            case Gender.Male:
+                                {
+                                    selectedRow.Cells["Gender"].Value = "\u2642"; // TODO does not work as intended
+                                    break;
+                                }
+                            case Gender.Female:
+                                {
+                                    selectedRow.Cells["Gender"].Value = "\u2640"; // TODO does not work as intended
+                                    break;
+                                }
+                            default:
+                                {
+                                    selectedRow.Cells["Gender"].Value = "";
+                                    break;
+                                }
+                        }
+
+                        // TODO as especially height and weight suffer from null exceptions
+                        selectedRow.Cells["Gender"].Value = editForm.Pokemon.Gender;
+                        selectedRow.Cells["Weight"].Value = editForm.Pokemon.Weight;
+                        selectedRow.Cells["Height"].Value = editForm.Pokemon.Height;
+                        selectedRow.Cells["HP"].Value = editForm.Pokemon.HP;
+                        selectedRow.Cells["Level Min"].Value = editForm.Pokemon.MinLevel;
+                        selectedRow.Cells["Level Max"].Value = editForm.Pokemon.MaxLevel;
                     }
                 }
             }
@@ -394,6 +431,35 @@ namespace PokemonGoTool
         private void dataTableModeDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateDataGridView(dt);
+        }
+
+        /// <summary>
+        /// Deletes all of the selected rows from the current data table. In order to avoid accidental deletion a confirmation prompt will be displayed first.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void deleteSelectedRowsBtn_Click(object sender, EventArgs e)
+        {
+            // Ensure that a row is selected
+            if (pokemonData.SelectedRows.Count > 0)
+            {
+                // Ask for confirmation
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected entries?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                // Check the user's response
+                if (result == DialogResult.Yes)
+                {
+                    // Loop through all selected rows and remove each one
+                    foreach (DataGridViewRow selectedRow in pokemonData.SelectedRows)
+                    {
+                        pokemonData.Rows.Remove(selectedRow);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select at least one row to delete.");
+            }
         }
     }
 }

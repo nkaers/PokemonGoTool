@@ -99,6 +99,7 @@
             deleteSelectedRowsBtn.TabIndex = 4;
             deleteSelectedRowsBtn.Text = "Delete selected rows";
             deleteSelectedRowsBtn.UseVisualStyleBackColor = true;
+            deleteSelectedRowsBtn.Click += deleteSelectedRowsBtn_Click;
             // 
             // saveToCSVBtn
             // 

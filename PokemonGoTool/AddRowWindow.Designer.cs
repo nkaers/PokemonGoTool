@@ -245,7 +245,6 @@
         private TextBox formInputBox;
         private Label additionalLabel;
         private ComboBox genderDropdownList;
-        private ComboBox comboBox1;
         private Button cancelBtn;
         private Button addBtn;
         private TextBox hpInputBox;
