@@ -145,7 +145,7 @@ namespace PokemonGoTool
                             pokemonData.Columns["Index"].Visible = false;
                             pokemonData.Columns["Name"].Visible = true;
                             pokemonData.Columns["Form"].Visible = true;
-                            pokemonData.Columns["Pokemon"].Visible = false;
+                            pokemonData.Columns["Pokemon"].Visible = true;
                             pokemonData.Columns["Gender"].Visible = true;
                             pokemonData.Columns["CP"].Visible = true;
                             pokemonData.Columns["HP"].Visible = false;
@@ -210,7 +210,7 @@ namespace PokemonGoTool
                             pokemonData.Columns["Index"].Visible = false;
                             pokemonData.Columns["Name"].Visible = true;
                             pokemonData.Columns["Form"].Visible = true;
-                            pokemonData.Columns["Pokemon"].Visible = false;
+                            pokemonData.Columns["Pokemon"].Visible = true;
                             pokemonData.Columns["Gender"].Visible = true;
                             pokemonData.Columns["CP"].Visible = true;
                             pokemonData.Columns["HP"].Visible = true;

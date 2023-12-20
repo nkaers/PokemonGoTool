@@ -69,7 +69,7 @@
             // 
             pokemonData.AllowUserToAddRows = false;
             pokemonData.AllowUserToDeleteRows = false;
-            pokemonData.AllowUserToResizeColumns = false;
+            pokemonData.AllowUserToOrderColumns = true;
             pokemonData.AllowUserToResizeRows = false;
             pokemonData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             pokemonData.EditMode = DataGridViewEditMode.EditProgrammatically;
