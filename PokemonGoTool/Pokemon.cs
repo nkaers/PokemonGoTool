@@ -39,6 +39,7 @@ namespace PokemonGoTool
         public float? Weight { get; }
         public float? Height { get; }
         public int? Lucky { get; }
+        public bool Shiny { get; }
 
         /*TODO extract from Master file
         public int BaseAttack { get; }
@@ -68,7 +69,8 @@ namespace PokemonGoTool
             string? catchDate = null,
             float? weight = null,
             float? height = null,
-            int? lucky = null/*,
+            int? lucky = null,
+            bool shiny = false/*,
             int baseAttack = null,
             int baseDefense = null,
             int baseHP = null*/)
@@ -93,6 +95,7 @@ namespace PokemonGoTool
             Weight = weight;
             Height = height;
             Lucky = lucky;
+            Shiny = shiny;
             /*
             BaseAttack = baseAttack;
             BaseDefense = baseDefense;

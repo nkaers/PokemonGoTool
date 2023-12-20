@@ -6,14 +6,23 @@ using System.Windows.Forms;
 
 namespace PokemonGoTool
 {
+    public enum DataTableVisibilityMode
+    {
+        Beginner,
+        Advanced,
+        Expert
+    }
+
     public partial class MainWindow : Form
     {
 
         private DataTable? dt;
+        private DataTableVisibilityMode dtVisibilityMode;
 
         public MainWindow()
         {
             InitializeComponent();
+            dataTableModeDropDownList.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -117,12 +126,161 @@ namespace PokemonGoTool
 
         }
 
+        /// <summary>
+        /// This method updates the DataGridView and adjusts the output to the DataTableVisibilityMode setting which can be chosen by the user to remove some of the columns.
+        /// </summary>
+        /// <param name="dt">The data table to be displayed in the DataGridView.</param>
         public void UpdateDataGridView(DataTable dt)
         {
             if (dt != null)
             {
                 this.dt = dt;
                 pokemonData.DataSource = dt;
+
+                DataTableVisibilityMode mode = (DataTableVisibilityMode)Enum.Parse(typeof(DataTableVisibilityMode), dataTableModeDropDownList.SelectedItem.ToString());
+                switch (mode)
+                {
+                    // only show the minimum information needed to distinguish the Pokemon
+                    case DataTableVisibilityMode.Beginner:
+                        {
+                            pokemonData.Columns["Index"].Visible = false;
+                            pokemonData.Columns["Name"].Visible = true;
+                            pokemonData.Columns["Form"].Visible = true;
+                            pokemonData.Columns["Pokemon"].Visible = false;
+                            pokemonData.Columns["Gender"].Visible = true;
+                            pokemonData.Columns["CP"].Visible = true;
+                            pokemonData.Columns["HP"].Visible = false;
+
+                            pokemonData.Columns["Atk IV"].Visible = false;
+                            pokemonData.Columns["Def IV"].Visible = false;
+                            pokemonData.Columns["Sta IV"].Visible = false;
+                            pokemonData.Columns["IV Avg"].Visible = true;
+
+                            pokemonData.Columns["Level Min"].Visible = false;
+                            pokemonData.Columns["Level Max"].Visible = false;
+
+                            pokemonData.Columns["Quick Move"].Visible = false;
+                            pokemonData.Columns["Charge Move"].Visible = false;
+                            pokemonData.Columns["Charge Move 2"].Visible = false;
+
+                            pokemonData.Columns["Scan Date"].Visible = false;
+                            pokemonData.Columns["Catch Date"].Visible = false;
+
+                            pokemonData.Columns["Weight"].Visible = false;
+                            pokemonData.Columns["Height"].Visible = false;
+
+                            pokemonData.Columns["Lucky"].Visible = false;
+                            pokemonData.Columns["Shadow/Purified"].Visible = false;
+                            pokemonData.Columns["Favorite"].Visible = false;
+                            pokemonData.Columns["Dust"].Visible = false;
+
+                            pokemonData.Columns["Rank % (G)"].Visible = true;
+                            pokemonData.Columns["Rank # (G)"].Visible = false;
+                            pokemonData.Columns["Stat Product (G)"].Visible = false;
+                            pokemonData.Columns["Dust Cost (G)"].Visible = false;
+                            pokemonData.Columns["Candy Cost (G)"].Visible = false;
+                            pokemonData.Columns["Name (G)"].Visible = true;
+                            pokemonData.Columns["Form (G)"].Visible = false;
+                            pokemonData.Columns["Sha/Pur (G)"].Visible = false;
+
+                            pokemonData.Columns["Rank % (U)"].Visible = true;
+                            pokemonData.Columns["Rank # (U)"].Visible = false;
+                            pokemonData.Columns["Stat Product (U)"].Visible = false;
+                            pokemonData.Columns["Dust Cost (U)"].Visible = false;
+                            pokemonData.Columns["Candy Cost (U)"].Visible = false;
+                            pokemonData.Columns["Name (U)"].Visible = true;
+                            pokemonData.Columns["Form (U)"].Visible = false;
+                            pokemonData.Columns["Sha/Pur (U)"].Visible = false;
+
+                            pokemonData.Columns["Rank % (L)"].Visible = true;
+                            pokemonData.Columns["Rank # (L)"].Visible = false;
+                            pokemonData.Columns["Stat Product (L)"].Visible = false;
+                            pokemonData.Columns["Dust Cost (L)"].Visible = false;
+                            pokemonData.Columns["Candy Cost (L)"].Visible = false;
+                            pokemonData.Columns["Name (L)"].Visible = true;
+                            pokemonData.Columns["Form (L)"].Visible = false;
+                            pokemonData.Columns["Sha/Pur (L)"].Visible = false;
+
+                            pokemonData.Columns["Marked for PvP use"].Visible = false;
+
+                            break;
+                        }
+                    // show more information but hide unnecessary information
+                    case DataTableVisibilityMode.Advanced:
+                        {
+                            pokemonData.Columns["Index"].Visible = false;
+                            pokemonData.Columns["Name"].Visible = true;
+                            pokemonData.Columns["Form"].Visible = true;
+                            pokemonData.Columns["Pokemon"].Visible = false;
+                            pokemonData.Columns["Gender"].Visible = true;
+                            pokemonData.Columns["CP"].Visible = true;
+                            pokemonData.Columns["HP"].Visible = true;
+
+                            pokemonData.Columns["Atk IV"].Visible = true;
+                            pokemonData.Columns["Def IV"].Visible = true;
+                            pokemonData.Columns["Sta IV"].Visible = true;
+                            pokemonData.Columns["IV Avg"].Visible = true;
+
+                            pokemonData.Columns["Level Min"].Visible = false;
+                            pokemonData.Columns["Level Max"].Visible = false;
+
+                            pokemonData.Columns["Quick Move"].Visible = false;
+                            pokemonData.Columns["Charge Move"].Visible = false;
+                            pokemonData.Columns["Charge Move 2"].Visible = false;
+
+                            pokemonData.Columns["Scan Date"].Visible = false;
+                            pokemonData.Columns["Catch Date"].Visible = false;
+
+                            pokemonData.Columns["Weight"].Visible = false;
+                            pokemonData.Columns["Height"].Visible = false;
+
+                            pokemonData.Columns["Lucky"].Visible = false;
+                            pokemonData.Columns["Shadow/Purified"].Visible = true;
+                            pokemonData.Columns["Favorite"].Visible = false;
+                            pokemonData.Columns["Dust"].Visible = false;
+
+                            pokemonData.Columns["Rank % (G)"].Visible = true;
+                            pokemonData.Columns["Rank # (G)"].Visible = false;
+                            pokemonData.Columns["Stat Product (G)"].Visible = false;
+                            pokemonData.Columns["Dust Cost (G)"].Visible = false;
+                            pokemonData.Columns["Candy Cost (G)"].Visible = false;
+                            pokemonData.Columns["Name (G)"].Visible = true;
+                            pokemonData.Columns["Form (G)"].Visible = false;
+                            pokemonData.Columns["Sha/Pur (G)"].Visible = false;
+
+                            pokemonData.Columns["Rank % (U)"].Visible = true;
+                            pokemonData.Columns["Rank # (U)"].Visible = false;
+                            pokemonData.Columns["Stat Product (U)"].Visible = false;
+                            pokemonData.Columns["Dust Cost (U)"].Visible = false;
+                            pokemonData.Columns["Candy Cost (U)"].Visible = false;
+                            pokemonData.Columns["Name (U)"].Visible = true;
+                            pokemonData.Columns["Form (U)"].Visible = false;
+                            pokemonData.Columns["Sha/Pur (U)"].Visible = false;
+
+                            pokemonData.Columns["Rank % (L)"].Visible = true;
+                            pokemonData.Columns["Rank # (L)"].Visible = false;
+                            pokemonData.Columns["Stat Product (L)"].Visible = false;
+                            pokemonData.Columns["Dust Cost (L)"].Visible = false;
+                            pokemonData.Columns["Candy Cost (L)"].Visible = false;
+                            pokemonData.Columns["Name (L)"].Visible = true;
+                            pokemonData.Columns["Form (L)"].Visible = false;
+                            pokemonData.Columns["Sha/Pur (L)"].Visible = false;
+
+                            pokemonData.Columns["Marked for PvP use"].Visible = false;
+
+                            break;
+                        }
+                    // make every entry visible in expert mode
+                    case DataTableVisibilityMode.Expert:
+                        {
+                            foreach (DataGridViewColumn column in pokemonData.Columns)
+                            {
+                                column.Visible = true;
+                            }
+                            break;
+                        }
+                    default: break;
+                }
             }
         }
 
@@ -226,6 +384,16 @@ namespace PokemonGoTool
             {
                 MessageBox.Show("Please select a row to edit.");
             }
+        }
+
+        /// <summary>
+        /// Calls the UpdateDataGridView method every time the user selects a new item in the setting.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataTableModeDropDownList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateDataGridView(dt);
         }
     }
 }

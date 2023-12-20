@@ -39,6 +39,7 @@
             saveFileDialog = new SaveFileDialog();
             debugText = new Label();
             createTableBtn = new Button();
+            dataTableModeDropDownList = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pokemonData).BeginInit();
             SuspendLayout();
             // 
@@ -46,6 +47,7 @@
             // 
             filePath.Location = new Point(10, 10);
             filePath.Name = "filePath";
+            filePath.PlaceholderText = "File Path to the data table source";
             filePath.Size = new Size(1400, 23);
             filePath.TabIndex = 0;
             // 
@@ -143,11 +145,23 @@
             createTableBtn.UseVisualStyleBackColor = true;
             createTableBtn.Click += createTableBtn_Click;
             // 
+            // dataTableModeDropDownList
+            // 
+            dataTableModeDropDownList.DropDownStyle = ComboBoxStyle.DropDownList;
+            dataTableModeDropDownList.FormattingEnabled = true;
+            dataTableModeDropDownList.Items.AddRange(new object[] { "Beginner", "Advanced", "Expert" });
+            dataTableModeDropDownList.Location = new Point(1420, 190);
+            dataTableModeDropDownList.Name = "dataTableModeDropDownList";
+            dataTableModeDropDownList.Size = new Size(150, 23);
+            dataTableModeDropDownList.TabIndex = 33;
+            dataTableModeDropDownList.SelectedIndexChanged += dataTableModeDropDownList_SelectedIndexChanged;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1584, 861);
+            Controls.Add(dataTableModeDropDownList);
             Controls.Add(createTableBtn);
             Controls.Add(debugText);
             Controls.Add(editRowBtn);
@@ -177,5 +191,6 @@
         private SaveFileDialog saveFileDialog;
         private Label debugText;
         private Button createTableBtn;
+        private ComboBox dataTableModeDropDownList;
     }
 }
