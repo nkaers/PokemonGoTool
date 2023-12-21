@@ -84,6 +84,7 @@ namespace PokemonGoTool
                 // get all of the entries of every row and adding them to the output
                 foreach (DataGridViewRow row in pokemonData.Rows)
                 {
+                    // TODO broken for enums like Gender, now after saving and loading all Pokemon are Genderless, fix here or in DataHandler
                     string[] rowEntries = (from DataGridViewCell cell in row.Cells select cell.Value.ToString().Replace(',', '.')).ToArray();
                     output.AppendLine(string.Join(separator, rowEntries));
                 }
