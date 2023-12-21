@@ -9,16 +9,16 @@ namespace PokemonGoTool
         private string[] StringHeaders { get; }
         private string[] IntHeaders { get; }
         private string[] FloatHeaders { get; }
+        private string[] StateHeaders { get; }
 
         public DataHandler()
         {
             // create lists of the most common headers and their corresponding type
             // TODO list of headers which are common but not implemented yet: Scan Date, Catch Date, Marked for PvP use
-            // TODO list of headers which are common and implemented but can be improved: Lucky, Shadow/Purified, Favorite, Sha/Pur (G), Sha/Pur (U), Sha/Pur (L)
+            // TODO list of headers which are common and implemented but can be improved: Lucky, Favorite
             StringHeaders = new string[] {
                 "Name",
                 "Form",
-                "Gender",
                 "Quick Move",
                 "Charge Move",
                 "Charge Move 2",
@@ -39,21 +39,17 @@ namespace PokemonGoTool
                 "Def IV",
                 "Sta IV",
                 "Lucky",
-                "Shadow/Purified",
                 "Favorite",
                 "Dust",
                 "Rank # (G)",
                 "Dust Cost (G)",
                 "Candy Cost (G)",
-                "Sha/Pur (G)",
                 "Rank # (U)",
                 "Dust Cost (U)",
                 "Candy Cost (U)",
-                "Sha/Pur (U)",
                 "Rank # (L)",
                 "Dust Cost (L)",
                 "Candy Cost (L)",
-                "Sha/Pur (L)"
                 };
 
             FloatHeaders = new string[] {
@@ -69,6 +65,13 @@ namespace PokemonGoTool
                 "Rank % (L)",
                 "Stat Product (L)"
                 };
+
+            StateHeaders = new string[] {
+                "Shadow/Purified",
+                "Sha/Pur (G)",
+                "Sha/Pur (U)",
+                "Sha/Pur (L)"
+            };
         }
 
 
@@ -100,6 +103,14 @@ namespace PokemonGoTool
                     else if (FloatHeaders.Contains(headerWord))
                     {
                         dt.Columns.Add(new DataColumn(headerWord, typeof(float)));
+                    }
+                    else if (headerWord.Equals("Gender"))
+                    {
+                        dt.Columns.Add(new DataColumn(headerWord, typeof(Gender)));
+                    }
+                    else if (StateHeaders.Contains(headerWord))
+                    {
+                        dt.Columns.Add(new DataColumn(headerWord, typeof(State)));
                     }
                     else
                     {
@@ -145,6 +156,28 @@ namespace PokemonGoTool
                             else if (FloatHeaders.Contains(headerWord))
                             {
                                 dr[headerWord] = float.Parse(dataWords[columnIndex++], CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            else if (headerWord.Equals("Gender"))
+                            {
+                                if (dataWords[columnIndex].Equals("\u2642"))
+                                {
+                                    dr[headerWord] = Gender.Male;
+                                    columnIndex++;
+                                }
+                                else if (dataWords[columnIndex].Equals("\u2640"))
+                                {
+                                    dr[headerWord] = Gender.Female;
+                                    columnIndex++;
+                                }
+                                else
+                                {
+                                    dr[headerWord] = Gender.Genderless;
+                                    columnIndex++;
+                                }
+                            }
+                            else if (StateHeaders.Contains(headerWord))
+                            {
+                                dr[headerWord] = (State)Enum.Parse(typeof(State), dataWords[columnIndex++]);
                             }
                             else
                             {

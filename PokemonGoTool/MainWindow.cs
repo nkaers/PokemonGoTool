@@ -113,16 +113,33 @@ namespace PokemonGoTool
 
                 if (result == DialogResult.Yes)
                 {
-                    AddRowWindow addRowWindow = new AddRowWindow(this, dt);
-                    addRowWindow.ShowDialog();
+                    DataHandler handler = new DataHandler();
+                    dt = handler.CreatePokegenieHeader();
+                    UpdateDataGridView(dt);
                 }
-            }
-            else
-            {
-                AddRowWindow addRowWindow = new AddRowWindow(this, dt);
-                addRowWindow.ShowDialog();
+                else return;
             }
 
+            // Create and show the AddForm
+            using (AddRowWindow addForm = new AddRowWindow())
+            {
+                // Show the form as a dialog
+                DialogResult result = addForm.ShowDialog();
+
+                // Check if the user clicked OK in the AddForm
+                // TODO good idea but totally wrong at the moment
+                // TODO outsource the creation of a pokemon in the table to the DataHandler so it can be used in Edit as well
+                if (result == DialogResult.OK)
+                {
+                    DataRow dr = dt.NewRow();
+                    int columnIndex = 1;
+                    foreach (var property in addForm.Pokemon)
+                    {
+                        dr[columnIndex++] = property is null ? System.DBNull.Value : property;
+                    }
+                    dt.Rows.Add(dr);
+                }
+            }
         }
 
         /// <summary>
@@ -315,12 +332,7 @@ namespace PokemonGoTool
                 string name = selectedRow.Cells["Name"].Value.ToString();
                 string form = selectedRow.Cells["Form"].Value?.ToString();
                 int pokemonId = (int)selectedRow.Cells["Pokemon"].Value;
-
-                Gender gender = Gender.Genderless;
-                string genderString = selectedRow.Cells["Gender"].Value.ToString();
-                if (genderString.Equals("\u2642")) gender = Gender.Male;
-                if (genderString.Equals("\u2640")) gender = Gender.Female;
-
+                Gender gender = selectedRow.Cells["Gender"].Value == System.DBNull.Value ? Gender.Genderless : (Gender)selectedRow.Cells["Gender"].Value;
                 int? cp = selectedRow.Cells["CP"].Value as int?;
                 int? hp = selectedRow.Cells["HP"].Value as int?;
                 int? atkIV = selectedRow.Cells["Atk IV"].Value as int?;
@@ -381,39 +393,13 @@ namespace PokemonGoTool
                         selectedRow.Cells["Quick Move"].Value = editForm.Pokemon.QuickMove;
                         selectedRow.Cells["Charge Move"].Value = editForm.Pokemon.ChargeMove;
                         selectedRow.Cells["Charge Move 2"].Value = editForm.Pokemon.ChargeMove2;
-
-                        Gender pokemonGender = editForm.Pokemon.Gender;
-                        switch (pokemonGender)
-                        {
-                            case Gender.Genderless:
-                                {
-                                    selectedRow.Cells["Gender"].Value = "";
-                                    break;
-                                }
-                            case Gender.Male:
-                                {
-                                    selectedRow.Cells["Gender"].Value = "\u2642"; // TODO does not work as intended
-                                    break;
-                                }
-                            case Gender.Female:
-                                {
-                                    selectedRow.Cells["Gender"].Value = "\u2640"; // TODO does not work as intended
-                                    break;
-                                }
-                            default:
-                                {
-                                    selectedRow.Cells["Gender"].Value = "";
-                                    break;
-                                }
-                        }
-
-                        // TODO as especially height and weight suffer from null exceptions
                         selectedRow.Cells["Gender"].Value = editForm.Pokemon.Gender;
-                        selectedRow.Cells["Weight"].Value = editForm.Pokemon.Weight;
-                        selectedRow.Cells["Height"].Value = editForm.Pokemon.Height;
-                        selectedRow.Cells["HP"].Value = editForm.Pokemon.HP;
-                        selectedRow.Cells["Level Min"].Value = editForm.Pokemon.MinLevel;
-                        selectedRow.Cells["Level Max"].Value = editForm.Pokemon.MaxLevel;
+
+                        selectedRow.Cells["Weight"].Value = editForm.Pokemon.Weight is null ? System.DBNull.Value : editForm.Pokemon.Weight;
+                        selectedRow.Cells["Height"].Value = editForm.Pokemon.Height is null ? System.DBNull.Value : editForm.Pokemon.Height;
+                        selectedRow.Cells["HP"].Value = editForm.Pokemon.HP is null ? System.DBNull.Value : editForm.Pokemon.HP;
+                        selectedRow.Cells["Level Min"].Value = editForm.Pokemon.MinLevel is null ? System.DBNull.Value : editForm.Pokemon.MinLevel;
+                        selectedRow.Cells["Level Max"].Value = editForm.Pokemon.MaxLevel is null ? System.DBNull.Value : editForm.Pokemon.MaxLevel;
                     }
                 }
             }

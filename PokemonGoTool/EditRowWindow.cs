@@ -49,18 +49,18 @@ namespace PokemonGoTool
             string name = nameInputBox.Text;
             string form = formInputBox.Text;
             Gender gender = (Gender)Enum.Parse(typeof(Gender), genderDropdownList.SelectedItem.ToString());
-            int? cp = string.IsNullOrEmpty(cpInputBox.Text) ? (int?)null : int.Parse(cpInputBox.Text);
-            int? hp = string.IsNullOrEmpty(hpInputBox.Text) ? (int?)null : int.Parse(hpInputBox.Text);
-            int? atkIV = string.IsNullOrEmpty(attackIVInputBox.Text) ? (int?)null : int.Parse(attackIVInputBox.Text);
-            int? defIV = string.IsNullOrEmpty(defenseIVInputBox.Text) ? (int?)null : int.Parse(defenseIVInputBox.Text);
-            int? staIV = string.IsNullOrEmpty(hpIVInputBox.Text) ? (int?)null : int.Parse(hpIVInputBox.Text);
-            float? minLevel = string.IsNullOrEmpty(levelInputBox.Text) ? (float?)null : float.Parse(levelInputBox.Text);
-            float? maxLevel = string.IsNullOrEmpty(levelInputBox.Text) ? (float?)null : float.Parse(levelInputBox.Text);
+            int? cp = string.IsNullOrEmpty(cpInputBox.Text) ? null : int.Parse(cpInputBox.Text);
+            int? hp = string.IsNullOrEmpty(hpInputBox.Text) ? null : int.Parse(hpInputBox.Text);
+            int? atkIV = string.IsNullOrEmpty(attackIVInputBox.Text) ? null : int.Parse(attackIVInputBox.Text);
+            int? defIV = string.IsNullOrEmpty(defenseIVInputBox.Text) ? null : int.Parse(defenseIVInputBox.Text);
+            int? staIV = string.IsNullOrEmpty(hpIVInputBox.Text) ? null : int.Parse(hpIVInputBox.Text);
+            float? minLevel = string.IsNullOrEmpty(levelInputBox.Text) ? null : float.Parse(levelInputBox.Text);
+            float? maxLevel = string.IsNullOrEmpty(levelInputBox.Text) ? null : float.Parse(levelInputBox.Text);
             string quickMove = quickMoveInputBox.Text;
             string chargeMove = chargeMoveInputBox.Text;
             string chargeMove2 = chargeMove2InputBox.Text;
-            float? weight = string.IsNullOrEmpty(weightInputBox.Text) ? (float?)null : float.Parse(weightInputBox.Text);
-            float? height = string.IsNullOrEmpty(heightInputBox.Text) ? (float?)null : float.Parse(heightInputBox.Text);
+            float? weight = string.IsNullOrEmpty(weightInputBox.Text) ? null : float.Parse(weightInputBox.Text);
+            float? height = string.IsNullOrEmpty(heightInputBox.Text) ? null : float.Parse(heightInputBox.Text);
 
             // Create an instance of Pokemon
             Pokemon pokemon = new Pokemon(

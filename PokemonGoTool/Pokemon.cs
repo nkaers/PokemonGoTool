@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace PokemonGoTool
 {
@@ -16,7 +18,7 @@ namespace PokemonGoTool
         Purified
     }
 
-    public class Pokemon
+    public class Pokemon : IEnumerable
     {
         // Properties to store Pokemon information
         public string Name { get; }
@@ -110,6 +112,71 @@ namespace PokemonGoTool
         public (float min, float max) estimateLevel() // TODO
         {
             return (0.0f, 0.0f);
+        }
+
+        // Implementation of IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
+        {
+            return new PokemonEnumerator(this);
+        }
+
+        // Iterator class
+        private class PokemonEnumerator : IEnumerator
+        {
+            private readonly Pokemon _pokemon;
+            private int _currentIndex = -1;
+
+            public PokemonEnumerator(Pokemon pokemon)
+            {
+                _pokemon = pokemon;
+            }
+
+            // Implementation of IEnumerator.MoveNext()
+            public bool MoveNext()
+            {
+                _currentIndex++;
+                return _currentIndex < 21; // Adjust the count based on the number of properties
+            }
+
+            // Implementation of IEnumerator.Reset()
+            public void Reset()
+            {
+                _currentIndex = -1;
+            }
+
+            // Implementation of IEnumerator.Current
+            public object Current
+            {
+                get
+                {
+                    // Return the corresponding property based on the current index
+                    switch (_currentIndex)
+                    {
+                        case 0: return _pokemon.Name;
+                        case 1: return _pokemon.State;
+                        case 2: return _pokemon.PokemonId;
+                        case 3: return _pokemon.Form;
+                        case 4: return _pokemon.Gender;
+                        case 5: return _pokemon.CP;
+                        case 6: return _pokemon.HP;
+                        case 7: return _pokemon.AtkIV;
+                        case 8: return _pokemon.DefIV;
+                        case 9: return _pokemon.StaIV;
+                        case 10: return _pokemon.MinLevel;
+                        case 11: return _pokemon.MaxLevel;
+                        case 12: return _pokemon.QuickMove;
+                        case 13: return _pokemon.ChargeMove;
+                        case 14: return _pokemon.ChargeMove2;
+                        case 15: return _pokemon.ScanDate;
+                        case 16: return _pokemon.CatchDate;
+                        case 17: return _pokemon.Weight;
+                        case 18: return _pokemon.Height;
+                        case 19: return _pokemon.Lucky;
+                        case 20: return _pokemon.Shiny;
+                        default: throw new InvalidOperationException();
+                    }
+                }
+            }
         }
     }
 }
